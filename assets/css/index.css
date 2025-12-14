@@ -1,0 +1,276 @@
+#CompanyName {
+  font-family: "Abster";
+
+  margin: 30px
+}
+
+@font-face {
+  font-family: 'Abster';
+  src: url('/assets/font/abster.otf')
+}
+
+
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+
+
+  background: #0f0c29;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.intro {
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.containersvg {
+  overflow: visible;
+  width: min(40vw, 500px);
+  height: min(40vw, 500px);
+  margin-left: 60px;
+}
+
+
+
+
+
+
+
+.neon {
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 40px #0ff,
+    0 0 80px #0ff,
+    0 0 90px #0ff,
+    0 0 100px #0ff,
+    0 0 150px #0ff;
+}
+
+.footpage_img {
+  height: 30px;
+}
+
+
+
+
+
+@font-face {
+  font-family: 'Azonix';
+  src: url('/assets/font/Azonix.otf');
+}
+
+.neon1 {
+  font-family: 'Azonix';
+  color: #FB4264;
+  font-size: 4vw;
+  line-height: 9vw;
+  text-shadow: 0 0 3vw #F40A35;
+}
+
+.flux {
+  font-family: 'Azonix';
+  color: #426DFB;
+  font-size: 4vw;
+  line-height: 9vw;
+  text-shadow: 0 0 3vw #2356FF;
+}
+
+
+
+.flux {
+  animation: flux 2s linear infinite;
+  -moz-animation: flux 2s linear infinite;
+  -webkit-animation: flux 2s linear infinite;
+  -o-animation: flux 2s linear infinite;
+}
+
+@keyframes flux {
+
+  0%,
+  100% {
+    text-shadow: 0 0 1vw #1041FF, 0 0 3vw #1041FF, 0 0 10vw #1041FF, 0 0 10vw #1041FF, 0 0 .4vw #8BFDFE, .5vw .5vw .1vw #147280;
+    color: #28D7FE;
+  }
+
+  50% {
+    text-shadow: 0 0 .5vw #082180, 0 0 1.5vw #082180, 0 0 5vw #082180, 0 0 5vw #082180, 0 0 .2vw #082180, .5vw .5vw .1vw #0A3940;
+    color: #146C80;
+  }
+}
+
+
+.wrapper {
+  height: 2000px;
+}
+
+.ecowrapper {
+  height: 4000px;
+}
+
+
+.ecointro {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 100px;
+  width: 100vw;
+}
+
+
+
+
+
+.loading_block {
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  stroke-dasharray: 100;
+  stroke-opacity: 0;
+  fill: #2b275b;
+  transition: fill 1s cubic-bezier(.2, .6, .45, 1) 0.5s;
+}
+
+.loading_block:hover,
+.loading_block:active {
+  fill: #4d46a2;
+  transition: fill 0s cubic-bezier(.2, .6, .45, 1);
+}
+
+
+.adv {
+  height: calc(100vh - 100px);
+  position: sticky;
+  top: 100px;
+
+  overflow: hidden;
+}
+
+.advwrapper {
+  width: 100vw;
+}
+
+.advcards {
+  position: relative;
+  top: calc(30vh - 100px);
+  height: 42vh;
+
+  width: max-content;
+
+  pointer-events: none;
+  display: flex;
+  flex-direction: row;
+}
+
+
+
+
+.advcard {
+  width: 35vh;
+  height: 42vh;
+  display: flex;
+  margin-right: 10vw;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.advcardtitle {
+  margin-top: 10%;
+  color: #8bc4ea;
+  margin-bottom: 5%;
+}
+
+.advcarddescribe {
+  color: white;
+  width: 80%;
+  text-align: center;
+}
+
+.cardimg {
+  height: 42vh;
+  position: absolute;
+  z-index: -1;
+}
+
+.advcardicon {
+  width: 50%;
+}
+
+
+@media screen and (max-width: 450px) {
+  .cardimg {
+    width: 80vw;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.choseus {
+  font-weight: 900;
+  background: linear-gradient(90deg, #fa8bff 0%, #2bd2ff 50%, #2bff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+@media screen and (max-width: 550px) {
+  .intro {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-width: 100vw;
+    justify-content: center;
+    align-items: center
+  }
+
+  .containersvg {
+    overflow: visible;
+    width: 80vw;
+    margin-top: 40px;
+    height: 80vw;
+    margin-left: 60px;
+  }
+  .neon1 {
+  font-family: 'Azonix';
+  color: #FB4264;
+  font-size: 10vw;
+  line-height: 9vw;
+  text-shadow: 0 0 3vw #F40A35;
+}
+
+.flux {
+  font-family: 'Azonix';
+  color: #426DFB;
+  font-size: 10vw;
+  line-height: 9vw;
+  text-shadow: 0 0 3vw #2356FF;
+}
+.loading{
+  display: none;
+}
+}

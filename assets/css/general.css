@@ -1,0 +1,55 @@
+.footer {
+  height: 60px;
+  width: 60vw;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  bottom: 30px;
+}
+
+@media screen and (max-width: 550px){
+  .footer {
+  height: 60px;
+  width: 80vw;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  bottom: 30px;
+}
+}
+
+
+
+
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.page:hover {
+  transform: scale(1.05);
+  transition: 0s ease-in-out 0.5;
+}
+
+@font-face {
+  font-family: 'Apple';
+  src: url('/assets/font/PingFangSC-Regular.otf');
+}
+
+.cntext {
+  font-family: "Apple";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@view-transition {
+  navigation: auto;
+}

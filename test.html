@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/assets/js/getNotification.js"></script>
+    <script src="/assets/js/sweetalert2.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Abster';
+            src: url('/assets/font/abster.otf')
+        }
+
+        .neon {
+            font-family: "Abster";
+            color: #fff;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #0ff,
+                0 0 20px #0ff;
+        }
+    </style>
+</head>
+
+<body style="background-color: black;">
+    <h1 class="neon">MIGHTY</h1>
+</body>
+<script>
+    getNotification("product")
+</script>
+</html>

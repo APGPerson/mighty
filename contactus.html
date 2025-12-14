@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact US</title>
+    <link rel="stylesheet" href="/assets/css/liquidglass.css">
+    <link rel="stylesheet" href="/assets/css/general.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <style>
+        a {
+            position: relative;
+            display: inline-block;
+            padding: 25px 30px;
+            margin: 40px 0;
+            color: #03e9f4;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: 0.5s;
+            letter-spacing: 4px;
+            overflow: hidden;
+
+        }
+
+        a:hover {
+            background: #03e9f4;
+            color: #050801;
+            box-shadow: 0 0 5px #03e9f4,
+                0 0 25px #03e9f4,
+                0 0 50px #03e9f4,
+                0 0 200px #03e9f4;
+            -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+        }
+
+        a:nth-child(1) {
+            filter: hue-rotate(270deg);
+        }
+
+        a:nth-child(2) {
+            filter: hue-rotate(110deg);
+        }
+
+        a span {
+            position: absolute;
+            display: block;
+        }
+
+        a span:nth-child(1) {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #03e9f4);
+            animation: animate1 1s linear infinite;
+        }
+
+        @keyframes animate1 {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        a span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #03e9f4);
+            animation: animate2 1s linear infinite;
+            animation-delay: 0.25s;
+        }
+
+        @keyframes animate2 {
+            0% {
+                top: -100%;
+            }
+
+            50%,
+            100% {
+                top: 100%;
+            }
+        }
+
+        a span:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #03e9f4);
+            animation: animate3 1s linear infinite;
+            animation-delay: 0.50s;
+        }
+
+        @keyframes animate3 {
+            0% {
+                right: -100%;
+            }
+
+            50%,
+            100% {
+                right: 100%;
+            }
+        }
+
+
+        a span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, #03e9f4);
+            animation: animate4 1s linear infinite;
+            animation-delay: 0.75s;
+        }
+
+        @keyframes animate4 {
+            0% {
+                bottom: -100%;
+            }
+
+            50%,
+            100% {
+                bottom: 100%;
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <!-- From https://github.com/hosseinnabi-ir/Glowing-Button-Hover-Animation-using-CSS/blob/Main/css/style.css -->
+    <script src="/assets/js/lenis.min.js"></script>
+    <script src="/assets/js/index.js"></script>
+    <script src="/assets/js/sweetalert2.js"></script>
+    <script src="/assets/js/getNotification.js"></script>
+    <script>
+        redirect_ = (element) => {
+            if (element.getAttribute('data-can') == "true") {
+                location.href = element.getAttribute('data-url')
+            }
+        }
+        enable = false
+        window.onload = () => {
+            getNotification("contactus")
+            fetch("/api/base.json").then((response) => {
+                if (!response.ok) {
+                    throw new Error("Fetch Failed")
+                }
+                return response.json()
+            }).then((data) => {
+                if (data.enableJoin == true) {
+                    enable = true
+                }
+            }).catch((err) => {
+                console.error(err)
+            })
+        }
+        joinus = () => {
+            if (enable) {
+                Swal.fire({
+                    title: "加入我们",
+                    icon: "success",
+                    text: "欢迎大家加入",
+                    theme: "dark",
+                    imageUrl: "/assets/img/wechat.jpg"
+                })
+            } else {
+                Swal.fire({
+                    title: "加入我们",
+                    icon: "error",
+                    text: "我们公司人数已满，暂不接受新加入成员",
+                    theme: "dark"
+                })
+            }
+
+        }
+        thanks = () => {
+            Swal.fire({
+                title: "特别致谢",
+                icon: "info",
+                html: "<b>bilibili@JIEJOE_轻敲代码</b> 提供了很多动画思路<br><b>GSAP Anime Libiry & Lottie.js</b> 提供了动画效果实现<br><b>Sweetalert2</b> 提供弹出框<br><br><b>Apple Inc</b> 环保相关图标动画&字体<br><b>以及其他无数CSS样式提供者<b>",
+                theme: "dark"
+            }).then(() => {
+                Swal.fire({
+                    title: "特别致谢",
+                    icon: "info",
+                    html: "NBTO & THSU",
+                    theme: "dark",
+                    imageUrl: "/assets/img/NBTO.jpg"
+                })
+            })
+        }
+        const copyrighttext = "\
+        Copyright © 2025 GZT<br>\
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br>\
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br>\
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+        
+        copyright = () => {
+            Swal.fire({
+                title: "版权声明",
+                icon: "info",
+                html: copyrighttext,
+                theme: "dark"
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div style="background: inherit;width: 100vw;justify-content: center;display: flex;height: 100px;align-items: center;"
+        class="titlebar">
+        <h1 id="CompanyName" class="neon" style="font-size: 50px;">M I G H T Y</h1>
+    </div>
+    <div style="display: flex;flex-direction: column;align-items: center;width: 100vw;">
+        <a onclick="joinus()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            加入我们 JOIN US
+        </a>
+        <a onclick="thanks()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            特别致谢 THANKS
+        </a>
+        <a onclick="copyright()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            版权声明 Copyright
+        </a>
+    </div>
+    <div class="footer glass">
+        <div class="page" data-url="/index.html" data-can="true" onclick="redirect_(this)">
+            <img src="/assets/img/homepage.svg" class="footpage_img">
+            <p class="cntext">主页</p>
+        </div>
+        <div class="page" data-url="/products.html" data-can="true" onclick="redirect_(this)">
+            <img src="/assets/img/product.svg" class="footpage_img">
+            <p class="cntext">产品</p>
+        </div>
+        <div class="page activeglass" data-url="/contactus.html" data-can="false" onclick="redirect_(this)">
+            <img src="/assets/img/contactus.svg" class="footpage_img">
+            <p class="cntext">联系我们</p>
+        </div>
+    </div>
+</body>
+
+</html>

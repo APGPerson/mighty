@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mighty™产品</title>
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="stylesheet" href="/assets/css/liquidglass.css">
+    <link rel="stylesheet" href="/assets/css/general.css">
+    <script src="/assets/js/sweetalert2.js"></script>
+    <script src="/assets/js/getNotification.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: #171717;
+            overflow: hidden;
+        }
+
+        .photobox {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .shower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .showtext {
+            margin-top: 30px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <script src="/assets/js/lenis.min.js"></script>
+    <script src="/assets/js/index.js"></script>
+    <script src="/assets/js/gsap.min.js"></script>
+    <script>
+        redirect_ = (element) => {
+            if (element.getAttribute('data-can') == "true") {
+                location.href = element.getAttribute('data-url')
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <canvas class="photobox"></canvas>
+    <div class="shower" style="width: 350px;">
+        <img style="height: 500px;width: 100%;" class="showimg">
+        <h1 class="showtext cntext">xxxx</h1>
+    </div>
+    <div class="footer glass">
+        <div class="page" data-url="/index.html" data-can="true" onclick="redirect_(this)">
+            <img src="/assets/img/homepage.svg" class="footpage_img">
+            <p class="cntext">主页</p>
+        </div>
+        <div class="page activeglass" data-url="/products.html" data-can="false" onclick="redirect_(this)">
+            <img src="/assets/img/product.svg" class="footpage_img">
+            <p class="cntext">产品</p>
+        </div>
+        <div class="page" data-url="/contactus.html" data-can="true" onclick="redirect_(this)">
+            <img src="/assets/img/contactus.svg" class="footpage_img">
+            <p class="cntext">联系我们</p>
+        </div>
+    </div>
+</body>
+<script>
+    // JIEJOE produce
+    // b站主页：https://space.bilibili.com/3546390319860710
+    // Modify by APG,2025
+    const photobox = {
+        enable: true, //展示图片时关闭
+        disableListener: false,
+        // canvas对象容器
+        canvas: {},
+        showelement: document.querySelector(".shower"),
+        showimg: document.querySelector(".showimg"),
+        showtext: document.querySelector(".showtext"),
+        shower: 0,
+        repeat: 1, //单张照片重复次数
+        // canvas 2d上下文
+        content: {},
+        // 图片的总数
+        img_total: 28,
+        // 图片排列的总列数
+        row_max: 7,
+        // 图片排列的总行数
+        line_max: 4,
+        // 源图片的实际宽高，这里因为图片太大，会占据画布太多位置，故除以一个数让其缩小
+        img_width: Math.floor(700 / 2),
+        img_height: Math.floor(1000 / 2),
+        // 图片间的上下左右间距
+        img_margin: 200,
+        // 所有图片纵横排列之后的总宽高，用作图片超出范围的界限判定
+        total_width: 0,
+        total_height: 0,
+        // 图片数据，用以储存每张图片的源以及xy坐标位置
+        img_data: 0,
+        // 当前画布是否可以移动
+        if_movable: false,
+        img_lis: [], //图片URL
+        tox: 0, //记录展示图片div 坐标
+        toy: 0,
+        rec: 0, //记录展示div元素相关信息
+        source: [0, 0], // 来自图片的坐标
+        touchid: null,
+        touchfrom: [0,0],
+        Origin: [0,0],
+        // 初始化
+        init(imglis) {
+            this.rec = this.showelement.getBoundingClientRect()
+            this.tox = (window.innerWidth - this.rec.width) / 2
+            this.toy = (window.innerHeight - this.rec.height) / 2
+            //this.img_total = imglis.length
+            this.img_lis = imglis
+            this.repeat = Math.ceil(this.img_total / imglis.length)
+            this.shower = document.querySelector(".shower")
+            this.canvas = document.querySelector(".photobox");
+            this.content = this.canvas.getContext("2d");
+            // 总宽度等于横向排列的所有图片的宽度和间隔相加，最后一张图片没有右间隔，故需要减去一个间隔，总高度同理
+            this.total_width = this.row_max * (this.img_width + this.img_margin) - this.img_margin;
+            this.total_height = this.line_max * (this.img_height + this.img_margin) - this.img_margin;
+            this.resize();
+            this.creat_events();
+            this.creat_img_data();
+        },
+        resize() {
+            // 修改canvas宽高以填充满页面
+            this.canvas.width = this.canvas.clientWidth;
+            this.canvas.height = this.canvas.clientHeight;
+            // 修改canvas宽高之后，画布内容会被清除，故需要调用一次move_imgs函数，重新生成所有图片
+            if (this.img_data) this.move_imgs(0, 0)
+        },
+        // 创建图片数据即img_data
+        creat_img_data() {
+            this.img_data = [];
+            var i = 0
+            for (let r = 0; r < this.repeat; r++) {
+                for (pic of this.img_lis) {
+                    const iter = i
+                    console.log(iter)
+                    let img = new Image();
+                    img.src = pic.src;
+                    // img.src = "/assets/products/doujiang.png"
+                    img.alt = pic.alt
+                    // img.alt = "iDoujiang"
+                    // 当图片加载完成之后，创建对应图片数据并添加到img_data中
+                    img.onload = () => {
+                        // 计算该序号图片处于第几行第几列
+                        let col_index = iter % this.row_max;
+                        let line_index = Math.floor(iter / this.row_max);
+                        console.log(`col${col_index} line${line_index}`)
+                        // 通过行列序号算出xy坐标
+                        let x = col_index * (this.img_width + this.img_margin);
+                        let y = line_index * (this.img_height + this.img_margin);
+                        // 将其添加到img_data中
+                        this.img_data.push({ img, x, y });
+                        console.log(`x${x} y${y}`)
+                        // 创建完成之后就绘制一次，确保在进入页面的时候，图片会全部显示
+                        this.content.drawImage(img, x, y, this.img_width, this.img_height);
+                    };
+                    i+=1
+                    if(i>=this.img_total) return
+                }
+
+
+            }
+        },
+        // 绑定所有监听事件
+        creat_events() {
+            window.addEventListener("click", (event) => {
+                if(this.disableListener) return
+                if (this.enable == false) {
+                    if (event.x > this.tox && event.x < this.tox + this.rec.width && event.y > this.toy && event.y < this.toy + 500) {
+                        console.log("Click")
+                    } else {
+                        console.log("Close")
+                        this.closeimg()
+                    }
+                }
+            })
+
+            window.addEventListener("resize", () => {
+                this.resize();
+            });
+            // 当鼠标按下时，才可以移动所有图片
+            this.canvas.addEventListener("mousedown", (e) => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    this.if_movable = true;
+                    this.Origin = [e.x,e.y]
+                }
+            });
+            // 当鼠标弹起时，图片无法被移动，并且调用check_img函数，获取当前鼠标所指向的图片
+            this.canvas.addEventListener("mouseup", (e) => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    this.if_movable = false;
+                    if(e.x == this.Origin[0] && e.y == this.Origin[1]) this.check_img(e.x, e.y);
+                    this.Origin = [0,0]
+                }
+            });
+            // 当鼠标离开选区时，图片无法被移动，
+            this.canvas.addEventListener("mouseleave", () => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    this.if_movable = false;
+                    this.Origin = [0,0]
+                }
+            });
+            // 当鼠标移动时，调用move_imgs函数，移动所有图片
+            this.canvas.addEventListener("mousemove", (e) => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    // if_movable为flase则不可以移动图片，即鼠标未按下时
+                    if (!this.if_movable) return 0;
+                    this.move_imgs(e.movementX, e.movementY);
+                
+                }
+            });
+
+
+            this.canvas.addEventListener("touchstart", (e) => {
+                if(this.disableListener) return
+                if (this.enable && this.touchid == null) {
+                    this.if_movable = true;
+                    this.touchid = e.changedTouches.item(0).identifier
+                    this.touchfrom = [e.changedTouches.item(0).clientX,e.changedTouches.item(0).clientY]
+                    this.Origin = [e.changedTouches.item(0).clientX,e.changedTouches.item(0).clientY]
+                }
+            });
+            // 当停止触摸时，图片无法被移动，并且调用check_img函数，获取当前鼠标所指向的图片
+            this.canvas.addEventListener("touchend", (e) => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    for(let i=0;i<e.changedTouches.length;i++)
+                    {
+                        const touch = e.changedTouches.item(i)
+                        if(touch.identifier == this.touchid){
+                            this.if_movable = false;
+                            if(touch.clientX == this.Origin[0] && touch.clientY == this.Origin[1]) this.check_img(touch.clientX,touch.clientY)
+                            this.touchid = null
+                            this.touchfrom = [0,0]
+                            this.Origin = [0,0]
+                            return 0
+                        }
+                    }
+                    
+                }
+            });
+            // 当鼠标离开选区时，图片无法被移动，
+            this.canvas.addEventListener("touchcancel", () => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    this.if_movable = false;
+                    this.touchid = null
+                    this.touchfrom = [0,0]
+                    this.Origin = [0,0]
+                }
+            });
+            // 当鼠标移动时，调用move_imgs函数，移动所有图片
+            this.canvas.addEventListener("touchmove", (e) => {
+                if(this.disableListener) return
+                if (this.enable) {
+                    // if_movable为flase则不可以移动图片，即鼠标未按下时
+                    if (!this.if_movable) return 0;
+                    for(let i=0;i<e.changedTouches.length;i++)
+                    {
+                        const touch = e.changedTouches.item(i)
+                        if(touch.identifier == this.touchid){
+                            this.move_imgs(touch.clientX - this.touchfrom[0], touch.clientY - this.touchfrom[1]);
+                            this.touchfrom = [e.changedTouches.item(0).clientX,e.changedTouches.item(0).clientY]
+                            return 0
+                        }
+                    }
+                    
+                }
+            });
+        },
+        // 移动所有图片
+        move_imgs(x, y) {
+            // 清除content，重新进行绘制
+            this.content.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            // 遍历所有图片，对每一张图片进行移动，并进行判断
+            this.img_data.forEach((img) => {
+                img.x += x;
+                // 当图片超出总宽度范围时，将图片移动到最右侧，
+                // 注意这里减去一个图片宽度是为了让图片提前位移，防止最左侧的图片出现空白行
+                if (img.x > (this.total_width - this.img_width))
+                    img.x -= this.total_width + this.img_margin;
+                // 当图片小于一个负的图片宽度，即向左超出总宽度范围时，将图片移动到最右侧
+                if (img.x < -this.img_width)
+                    img.x += this.total_width + this.img_margin;
+                // 竖向同上
+                img.y += y;
+                if (img.y > (this.total_height - this.img_height))
+                    img.y -= this.total_height + this.img_margin;
+                if (img.y < -this.img_height)
+                    img.y += this.total_height + this.img_margin;
+                // 绘制图片，更新画布
+                this.content.drawImage(img.img, img.x, img.y, this.img_width, this.img_height);
+            });
+        },
+        // 获取当前鼠标点击位置下的对应图片数据
+        check_img(x, y) {
+            // 遍历所有图片，找出鼠标xy坐标处于图片内部的那张图片
+            let img = this.img_data.find(img =>
+                x >= img.x && x < img.x + this.img_width &&
+                y >= img.y && y < img.y + this.img_height
+            );
+            // 如果存在，则输出
+            if (img) {
+                console.log(img, img.img);
+                this.openimg(img, img.x, img.y)
+            }
+        },
+        setDefault(){
+            this.if_movable = false;
+            this.touchid = null
+            this.touchfrom = [0,0]
+            this.Origin = [0,0]
+        },
+        openimg(img, x, y) {
+            this.setDefault()
+            this.disableListener = true
+            this.showtext.innerHTML = img.img.alt
+            //this.showelement.style.transform = `translateX(${img.x}px) translateY(${img.y}px)`
+            this.source = [x, y]
+            this.showimg.src = img.img.src
+            this.showelement.style.opacity = 1
+
+            this.rec = this.showelement.getBoundingClientRect()
+            this.tox = (window.innerWidth - this.rec.width) / 2
+            this.toy = (window.innerHeight - this.rec.height) / 2
+            //console.log(this.showelement.style)
+            tl = gsap.timeline()
+            tl.to(this.showelement, {
+                x: img.x,
+                y: img.y,
+                duration: 0
+            }).to(this.showelement, {
+                x: this.tox,
+                y: this.toy,
+                ease: "power2.out"
+            }).to(this.canvas, {
+                opacity: 0,
+                ease: "power2.out"
+            }, "<").call(() => {
+                this.disableListener = false
+                this.enable = false
+            })
+
+        },
+        closeimg() {
+            this.setDefault()
+            this.disableListener = true
+            tl = gsap.timeline()
+            tl.to(this.showelement, {
+                x: this.source[0],
+                y: this.source[1],
+                ease: "power2.out"
+            }).to(this.canvas, {
+                opacity: 1,
+                ease: "power2.out"
+            }, "<")
+                .call(() => {
+                    this.disableListener = false
+                    this.enable = true
+                    this.showelement.style.opacity = 0
+                })
+
+        }
+    };
+    // 初始化
+    window.onload = () => {
+        getNotification("product")
+        fetch("/api/products.json").then((response) => {
+            if (!response.ok) {
+                throw new Error("Fetch Failed")
+            }
+            return response.json()
+        }).then((data) => {
+            pictures = new Array
+            data.products.forEach((element) => {
+                picture = new Map
+                picture.src = element.src
+                picture.alt = `${element.name}<br><b>${element.type}</b>`
+                pictures.push(picture)
+            })
+            console.log(pictures)
+            photobox.init(pictures);
+        }).catch((err) => {
+            console.error(err)
+            Swal.fire({
+                title:"错误",
+                icon: "error",
+                text: "出现错误，请尝试刷新页面",
+                theme: "dark"
+            })
+        })
+
+    }
+
+</script>
+
+</html>

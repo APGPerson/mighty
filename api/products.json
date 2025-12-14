@@ -1,0 +1,13 @@
+{
+    "products": [
+        {
+            "name": "矿石",
+            "src": "/assets/products/orb.png",
+            "type": "原料"
+        },{
+            "name": "化工产品",
+            "src": "/assets/products/ci.png",
+            "type": "原料"
+        }
+    ]
+}
