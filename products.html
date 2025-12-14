@@ -145,8 +145,30 @@
             // 修改canvas宽高以填充满页面
             this.canvas.width = this.canvas.clientWidth;
             this.canvas.height = this.canvas.clientHeight;
-            // 修改canvas宽高之后，画布内容会被清除，故需要调用一次move_imgs函数，重新生成所有图片
+            if(this.canvas.width < 800){
+                this.img_width = 0.5* this.canvas.width
+                this.img_height = this.img_width * 10 / 7
+                this.img_margin = this.img_height * 0.4
+                this.showelement.style.width = `${this.img_width}px`
+                this.showimg.style.height = `${this.img_height}px`
+                this.total_width = this.row_max * (this.img_width + this.img_margin) - this.img_margin;
+                this.total_height = this.line_max * (this.img_height + this.img_margin) - this.img_margin;
+                this.img_margin
+                this.creat_img_data();
+            }else{
+                this.img_width= Math.floor(700 / 2),
+                this.img_height =  Math.floor(1000 / 2),
+                this.img_margin = 200
+                this.showelement.style.width = "350px"
+                this.showimg.style.height = "500px"
+                this.total_width = this.row_max * (this.img_width + this.img_margin) - this.img_margin;
+                this.total_height = this.line_max * (this.img_height + this.img_margin) - this.img_margin;
+                
+                this.creat_img_data();
+            } 
             if (this.img_data) this.move_imgs(0, 0)
+            // 修改canvas宽高之后，画布内容会被清除，故需要调用一次move_imgs函数，重新生成所有图片
+            
         },
         // 创建图片数据即img_data
         creat_img_data() {

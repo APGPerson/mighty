@@ -1,10 +1,5 @@
 {
     "index": [],
-    "product": [{
-        "title": "请等待，比赛开始后将会逐渐解禁",
-        "text": "当前展示仅为可以公开的产品",
-        "icon": "info",
-        "theme" : "dark"
-    }],
+    "product": [],
     "contactus": []
 }

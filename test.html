@@ -7,28 +7,35 @@
     <title>Document</title>
     <script src="/assets/js/getNotification.js"></script>
     <script src="/assets/js/sweetalert2.js"></script>
+    <link rel="stylesheet" href="/assets/css/loading.css">
     <style>
-        @font-face {
-            font-family: 'Abster';
-            src: url('/assets/font/abster.otf')
-        }
-
-        .neon {
-            font-family: "Abster";
-            color: #fff;
-            text-shadow:
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 15px #0ff,
-                0 0 20px #0ff;
+        .loadscreen {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f0c29;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
         }
     </style>
 </head>
 
 <body style="background-color: black;">
-    <h1 class="neon">MIGHTY</h1>
+    <div class="loadscreen">
+        <div class="folding">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
 </body>
-<script>
-    getNotification("product")
-</script>
+
 </html>

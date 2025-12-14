@@ -4,7 +4,6 @@ window.onload = () => {
     const lenis = new Lenis({
         autoRaf: true,
     });
-
     // Listen for the scroll event and log the event data
 
     

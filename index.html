@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="/assets/css/index.css">
     <link rel="stylesheet" href="/assets/css/liquidglass.css">
     <link rel="stylesheet" href="/assets/css/general.css">
+    <link rel="stylesheet" href="/assets/css/loading.css">
     <script src="/assets/js/lenis.min.js"></script>
-    <script src="/assets/js/index.js"></script>
     <script src="/assets/js/gsap.min.js"></script>
     <script src="/assets/js/ScrollTrigger.min.js"></script>
     <script src="/assets/js/TextPlugin.min.js"></script>
@@ -26,7 +26,14 @@
 </head>
 
 <body>
-
+    <div class="loadscreen">
+        <div class="folding">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
     <div style="background: inherit;position: fixed;z-index: 1000;width: 100vw;justify-content: center;display: flex;height: 100px;align-items: center;"
         class="titlebar">
         <h1 id="CompanyName" class="neon">M I G H T Y</h1>
@@ -58,13 +65,6 @@
                     <img src="/assets/img/exp.svg" class="advcardicon" style="width: 80%;">
                     <h1 class="advcardtitle cntext">丰富的经验</h1>
                     <p class="advcarddescribe cntext">多名拥有丰富经验及超强技术的老将</p>
-                </div>
-                <div class="advcard">
-                    <img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='utf-8'?%3e%3c!--%20Generator:%20Adobe%20Illustrator%2026.5.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%206.00%20Build%200)%20--%3e%3csvg%20version='1.1'%20id='图层_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20x='0px'%20y='0px'%20viewBox='0%200%20513%20614'%20style='enable-background:new%200%200%20513%20614;'%20xml:space='preserve'%3e%3cstyle%20type='text/css'%3e%20.st0{fill:%231A1A1A;}%20%3c/style%3e%3cpath%20class='st0'%20d='M492.1,577.1h-97.4L365.3,614H21.1c-11.3,0-20.5-9.2-20.5-20.5v-428l36.9-65V20.5C37.5,9.2,46.7,0,58,0h434.1%20c11.3,0,20.5,9.2,20.5,20.5v536.1C512.6,567.9,503.4,577.1,492.1,577.1z'/%3e%3c/svg%3e"
-                        class="cardimg">
-                    <img src="/assets/img/r.svg" class="advcardicon">
-                    <h1 class="advcardtitle cntext">老牌品牌</h1>
-                    <p class="advcarddescribe cntext">Mighty™为多届商赛参与品牌，更值得信赖</p>
                 </div>
                 <div class="advcard">
                     <img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='utf-8'?%3e%3c!--%20Generator:%20Adobe%20Illustrator%2026.5.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%206.00%20Build%200)%20--%3e%3csvg%20version='1.1'%20id='图层_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20x='0px'%20y='0px'%20viewBox='0%200%20513%20614'%20style='enable-background:new%200%200%20513%20614;'%20xml:space='preserve'%3e%3cstyle%20type='text/css'%3e%20.st0{fill:%231A1A1A;}%20%3c/style%3e%3cpath%20class='st0'%20d='M492.1,577.1h-97.4L365.3,614H21.1c-11.3,0-20.5-9.2-20.5-20.5v-428l36.9-65V20.5C37.5,9.2,46.7,0,58,0h434.1%20c11.3,0,20.5,9.2,20.5,20.5v536.1C512.6,567.9,503.4,577.1,492.1,577.1z'/%3e%3c/svg%3e"
@@ -164,11 +164,30 @@
         // EcoScroll.init() 
         loading.init()
         advintroscroll.init()
+        // 傻逼苹果webkit text-shadow显示效果依托
         if ('GestureEvent' in window) {
             const neon = document.querySelector(".neon")
             neon.classList.remove("neon")
             neon.style.color = "#FFFFFF"
         }
     });
+    
+window.onload = () => {
+    // Initialize Lenis
+    const lenis = new Lenis({
+        autoRaf: true,
+    });
+    // Listen for the scroll event and log the event data
+    const load = document.querySelector(".loadscreen")
+    gsap.to(load,{
+        opacity: 0,
+        ease: "power2.out",
+        duration: 0.5,
+        onComplete: ()=>{
+            load.remove()
+        }
+    }
+    )
+}
 
 </script>
