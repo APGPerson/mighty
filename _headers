@@ -1,2 +1,14 @@
 /*
   Access-Control-Allow-Origin: *
+
+/assets/font/*
+  Cache-Control: max-age=31536000
+
+/assets/img/*
+  Cache-Control: max-age=31536000
+
+/assets/products/*
+  Cache-Control: max-age=31536000
+
+/api/*
+  Cache-control: no-store
