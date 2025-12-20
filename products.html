@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/index.css">
     <link rel="stylesheet" href="/assets/css/liquidglass.css">
     <link rel="stylesheet" href="/assets/css/general.css">
+    <script src="/assets/js/fonts.js"></script>
     <script src="https://cdn.jsdmirror.com/npm/sweetalert2@11"></script>
     <script src="/assets/js/getNotification.js"></script>
     <style>
@@ -410,6 +411,7 @@
     };
     // 初始化
     window.onload = () => {
+        loadFonts()
         getNotification("product")
         fetch("/api/products.json").then((response) => {
             if (!response.ok) {

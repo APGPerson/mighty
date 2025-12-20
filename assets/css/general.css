@@ -36,13 +36,14 @@
   transition: 0s ease-in-out 0.5;
 }
 
-@font-face {
-  font-family: 'Apple';
-  src: url('/assets/font/PingFangSC-Regular.otf');
-}
+
 
 .cntext {
-  font-family: "Apple";
+  font-family: 'Microsoft YaHei', '微软雅黑', Arial, Helvetica, sans-serif;
+}
+
+.cntext.loaded {
+  font-family: "Apple", sans-serif;
 }
 
 * {

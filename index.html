@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdmirror.com/npm/gsap@3.14.1/dist/TextPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.13.0/lottie.min.js"></script>
     <script src="/assets/js/anims.js" defer></script>
+    <script src="/assets/js/fonts.js"></script>
     <script src="https://cdn.jsdmirror.com/npm/sweetalert2@11"></script>
     <script src="/assets/js/getNotification.js"></script>
     <script>
@@ -26,13 +27,14 @@
 </head>
 
 <body>
-    <div class="loadscreen">
+    <div class="loadscreen" style="display: flex;flex-direction: column;">
         <div class="folding">
             <div class="sk-cube1 sk-cube"></div>
             <div class="sk-cube2 sk-cube"></div>
             <div class="sk-cube4 sk-cube"></div>
             <div class="sk-cube3 sk-cube"></div>
         </div>
+        <h1 style="text-align: center;color: white;margin-top: 30px;">字体将在该内容加载完成后进行加载...</h1>
     </div>
     <div style="background: inherit;position: fixed;z-index: 1000;width: 100vw;justify-content: center;display: flex;height: 100px;align-items: center;"
         class="titlebar">
@@ -173,6 +175,7 @@
     });
     
 window.onload = () => {
+    
     // Initialize Lenis
     const lenis = new Lenis({
         autoRaf: true,
@@ -185,9 +188,11 @@ window.onload = () => {
         duration: 0.5,
         onComplete: ()=>{
             load.remove()
+            loadFonts()
         }
     }
     )
+    
 }
 
 </script>
