@@ -213,6 +213,7 @@ body {
 }
 
 .advcardtitle {
+  text-align: center;
   margin-top: 10%;
   color: #8bc4ea;
   margin-bottom: 5%;

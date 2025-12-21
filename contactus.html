@@ -186,7 +186,7 @@
                 Swal.fire({
                     title: "加入我们",
                     icon: "error",
-                    text: "我们公司人数已满，暂不接受新加入成员",
+                    text: "我们公司人数已满，暂不接受新加入成员\n我们不接受新的合作",
                     theme: "dark"
                 })
             }
@@ -205,6 +205,13 @@
                     html: "NBTO & THSU",
                     theme: "dark",
                     imageUrl: "/assets/img/NBTO.jpg"
+                }).then(()=>{
+                    Swal.fire({
+                    title: "特别致谢",
+                    icon: "info",
+                    html: "Cloudflare & EdgeOne free cdn",
+                    theme: "dark"
+                })
                 })
             })
         }
